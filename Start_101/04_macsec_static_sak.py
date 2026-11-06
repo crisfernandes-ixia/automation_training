@@ -31,7 +31,7 @@ Run
   python 04_macsec_static_sak.py
 """
 import lab_config as cfg
-from common import (check_traffic_loss, connect_ports, describe, ixnetwork_session, list_views,
+from common import (check_traffic_loss, connect_ports, describe, export_views, ixnetwork_session,
                     run_traffic, stat_view_to_csv)
 
 # ----------------------------- test parameters --------------------------------
@@ -44,7 +44,7 @@ SAK = 'f123456789caffee0123456789abcdef'
 
 FRAME_SIZES = [64, 512, 1500]  # one run per size; MACsec adds 24-32 bytes on the wire
 LINE_RATE_PERCENT = 90         # leave headroom for the SecTAG + ICV overhead
-FRAMES_PER_RUN = 100000
+FRAMES_PER_RUN = 10000
 # --------------------------------------------------------------------------------
 
 with ixnetwork_session('lesson04-macsec-static') as session:
@@ -95,6 +95,8 @@ with ixnetwork_session('lesson04-macsec-static') as session:
     ti = ixnetwork.Traffic.TrafficItem.add(Name='MACsec_Encrypted', TrafficType='ethernetVlan',
                                            BiDirectional=True)
     ti.EndpointSet.add(Sources=macsec_endpoints[0], Destinations=macsec_endpoints[1])
+    # No TrackBy here: MACsec traffic rejects trackingenabled0 at Apply. Its stats row
+    # shows up as 'Quick Flow Groups Egress Only' in Traffic Item Statistics.
     ce = ti.ConfigElement.find()[0]
     ce.FrameRate.update(Type='percentLineRate', Rate=LINE_RATE_PERCENT)
     ce.TransmissionControl.update(Type='fixedFrameCount', FrameCount=FRAMES_PER_RUN)
@@ -110,8 +112,7 @@ with ixnetwork_session('lesson04-macsec-static') as session:
         stat_view_to_csv(session, 'Traffic Item Statistics', 'lesson04_traffic_{}B.csv'.format(size))
 
     # --- MACsec statistic views (Tx/Rx protected/encrypted, ICV errors ...) ------------
-    for view in list_views(session, 'macsec'):
-        stat_view_to_csv(session, view, 'lesson04_{}.csv'.format(view.replace(' ', '_')))
+    export_views(session, 'macsec', 'lesson04')
 
     print('\nSummary: ' + ', '.join('{}B={}'.format(s, 'PASS' if ok else 'FAIL')
                                    for s, ok in results.items()))

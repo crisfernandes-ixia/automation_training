@@ -26,7 +26,7 @@ from common import (CONFIGS_DIR, check_traffic_loss, connect_ports, ixnetwork_se
                     run_traffic, start_protocols_and_wait, stat_view_to_csv,
                     verify_protocol_sessions)
 
-config_file = sys.argv[1] if len(sys.argv) > 1 else os.path.join(CONFIGS_DIR, 'sample.ixncfg')
+config_file = sys.argv[1] if len(sys.argv) > 1 else os.path.join(CONFIGS_DIR, 'my_test.ixncfg')
 if not os.path.isfile(config_file):
     sys.exit('Config file not found: {}\nUsage: python {} <file.ixncfg>'.format(config_file, sys.argv[0]))
 

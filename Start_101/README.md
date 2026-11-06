@@ -65,7 +65,7 @@ python 05_macsec_mka.py
 ```
 
 ```bash
-python 06_capture_save_and_report.py configs/my_test.ixncfg
+python 06_capture_save_and_report.py
 ```
 
 Each script writes its outputs to `results/`: the RestPy log, CSV statistics, captures

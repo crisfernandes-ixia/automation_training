@@ -27,12 +27,12 @@ PASSWORD = os.environ.get('IXN_PASSWORD', 'admin')
 # Lab: ports 2/1..2/4 are cabled to the DUT (NXP TSN switch) with 1G copper.
 # ---------------------------------------------------------------------------
 CHASSIS_IP = os.environ.get('IXN_CHASSIS', '10.80.81.2')
-PORTS = [(2, 1), (2, 2), (2, 3), (2, 4)]
+PORTS = [(2, 13), (2, 14)]  # list of (card, port) tuples 
 
 # Layer-1 settings applied after the ports are connected.
 # Set either value to None to keep the port's default.
-PORT_MEDIA = 'copper'        # 'copper' | 'fiber' | 'sgmii' (depends on the card)
-PORT_SPEED = 'speed1000'     # e.g. 'speed100fd', 'speed1000', 'speed10g'
+PORT_MEDIA = 'fiber'        # 'copper' | 'fiber' | 'sgmii' (depends on the card)
+PORT_SPEED = 'speed10g'     # e.g. 'speed100fd', 'speed1000', 'speed10g'
 
 # ---------------------------------------------------------------------------
 # Session housekeeping

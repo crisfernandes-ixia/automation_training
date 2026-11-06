@@ -42,7 +42,11 @@ try:
     ixnetwork = session.Ixnetwork          # ROOT of the IxNetwork object tree
 
     print('API server platform : {}'.format(test_platform.Platform))
-    print('Session id / name   : {} / {}'.format(ixn_session.Id, ixn_session.Name))
+    # Windows GUI sessions have no name (RestPy raises KeyError on .Name).
+    if test_platform.Platform == 'windows':
+        print('Session id          : {}'.format(ixn_session.Id))
+    else:
+        print('Session id / name   : {} / {}'.format(ixn_session.Id, ixn_session.Name))
     print('IxNetwork build     : {}'.format(ixnetwork.Globals.BuildNumber))
 
     # 3. Explore the tree - every node supports find(), add(), update(), remove()

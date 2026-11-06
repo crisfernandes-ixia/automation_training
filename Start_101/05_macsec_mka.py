@@ -25,7 +25,7 @@ Run
   python 05_macsec_mka.py
 """
 import lab_config as cfg
-from common import (check_traffic_loss, connect_ports, describe, ixnetwork_session, list_views,
+from common import (check_traffic_loss, connect_ports, describe, export_views, ixnetwork_session,
                     run_traffic, start_protocols_and_wait, stat_view_to_csv,
                     verify_protocol_sessions)
 
@@ -45,7 +45,7 @@ REKEY_INTERVAL_SEC = 30
 
 FRAME_SIZE = 512
 LINE_RATE_PERCENT = 90
-FRAMES = 1000000
+FRAMES = 10000
 # --------------------------------------------------------------------------------
 
 with ixnetwork_session('lesson05-macsec-mka') as session:
@@ -91,13 +91,13 @@ with ixnetwork_session('lesson05-macsec-mka') as session:
     # --- bring up MKA and verify -----------------------------------------------------------
     start_protocols_and_wait(ixnetwork, settle_seconds=20)
     verify_protocol_sessions(session)           # all MKA sessions Up, none Down
-    for view in list_views(session, 'mka'):     # e.g. MKA per port: key server, SAK, AN ...
-        stat_view_to_csv(session, view, 'lesson05_{}.csv'.format(view.replace(' ', '_')))
+    export_views(session, 'mka', 'lesson05')    # e.g. MKA per port: key server, SAK, AN ...
 
     # --- encrypted traffic ------------------------------------------------------------------
     ti = ixnetwork.Traffic.TrafficItem.add(Name='MKA_Encrypted', TrafficType='ethernetVlan',
                                            BiDirectional=True)
     ti.EndpointSet.add(Sources=macsec_endpoints[0], Destinations=macsec_endpoints[1])
+    # No TrackBy here: MACsec traffic rejects trackingenabled0 at Apply (see lesson 4).
     ce = ti.ConfigElement.find()[0]
     ce.FrameSize.update(Type='fixed', FixedSize=FRAME_SIZE)
     ce.FrameRate.update(Type='percentLineRate', Rate=LINE_RATE_PERCENT)
@@ -106,7 +106,6 @@ with ixnetwork_session('lesson05-macsec-mka') as session:
     run_traffic(ixnetwork)
     passed = check_traffic_loss(session)
     stat_view_to_csv(session, 'Traffic Item Statistics', 'lesson05_traffic_items.csv')
-    for view in list_views(session, 'macsec'):
-        stat_view_to_csv(session, view, 'lesson05_{}.csv'.format(view.replace(' ', '_')))
+    export_views(session, 'macsec', 'lesson05')
 
     print('\nRESULT: {}'.format('PASS' if passed else 'FAIL'))

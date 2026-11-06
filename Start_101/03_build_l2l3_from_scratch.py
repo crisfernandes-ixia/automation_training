@@ -25,7 +25,7 @@ import lab_config as cfg
 from common import (check_traffic_loss, connect_ports, ixnetwork_session, run_traffic,
                     start_protocols_and_wait, stat_view_to_csv, verify_protocol_sessions)
 
-DEVICES_PER_PORT = 1      # try 10 - nothing else needs to change
+DEVICES_PER_PORT = 10      # try 10 - nothing else needs to change
 
 with ixnetwork_session('lesson03') as session:
     ixnetwork = session.Ixnetwork
