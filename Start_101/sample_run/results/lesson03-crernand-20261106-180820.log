@@ -1,0 +1,27 @@
+2026-11-06 23:08:20 [ixnetwork_restpy.connection tid:36116] [INFO] using python version 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]
+2026-11-06 23:08:20 [ixnetwork_restpy.connection tid:36116] [INFO] using ixnetwork-restpy version 1.7.0
+2026-11-06 23:08:20 [ixnetwork_restpy.connection tid:36116] [WARNING] Verification of certificates is disabled
+2026-11-06 23:08:20 [ixnetwork_restpy.connection tid:36116] [INFO] Determining the platform and rest_port using the localhost address...
+2026-11-06 23:08:24 [ixnetwork_restpy.connection tid:36116] [WARNING] Unable to connect to http://localhost:443.
+2026-11-06 23:08:28 [ixnetwork_restpy.connection tid:36116] [WARNING] Unable to connect to https://localhost:443.
+2026-11-06 23:08:28 [ixnetwork_restpy.connection tid:36116] [WARNING] Unable to connect to http://localhost:11009.
+2026-11-06 23:08:28 [ixnetwork_restpy.connection tid:36116] [INFO] Connection established to `https://localhost:11009 on windows`
+2026-11-06 23:08:28 [ixnetwork_restpy.connection tid:36116] [WARNING] Setting the session name is not supported on the windows platform
+2026-11-06 23:08:28 [ixnetwork_restpy.connection tid:36116] [INFO] Using IxNetwork api server version 26.0.2620.9
+2026-11-06 23:08:28 [ixnetwork_restpy.connection tid:36116] [INFO] User info IxNetwork/1H85180DSV/crernand
+2026-11-06 23:08:29 [ixnetwork_restpy.connection tid:36116] [INFO] Connected: platform=windows session id=1 name=<none>
+2026-11-06 23:08:30 [ixnetwork_restpy.connection tid:36116] [INFO] Connecting ports [(2, 13), (2, 14)] on chassis 10.80.81.2
+2026-11-06 23:08:30 [ixnetwork_restpy.connection tid:36116] [INFO] Adding test port hosts [10.80.81.2]...
+2026-11-06 23:08:36 [ixnetwork_restpy.connection tid:36116] [INFO] PortMapAssistant._add_hosts duration: 5.787871599197388secs
+2026-11-06 23:08:36 [ixnetwork_restpy.connection tid:36116] [INFO] Connecting virtual ports to test ports using location
+2026-11-06 23:08:56 [ixnetwork_restpy.connection tid:36116] [INFO] PortMapAssistant._connect_ports duration: 20.07076334953308secs
+2026-11-06 23:08:56 [ixnetwork_restpy.connection tid:36116] [WARNING] Bypassing link state check
+2026-11-06 23:09:00 [ixnetwork_restpy.connection tid:36116] [INFO] Port_1: L1 NovusTenGigLan set to media=fiber speed=speed10g
+2026-11-06 23:09:04 [ixnetwork_restpy.connection tid:36116] [INFO] Port_2: L1 NovusTenGigLan set to media=fiber speed=speed10g
+2026-11-06 23:09:04 [ixnetwork_restpy.connection tid:36116] [INFO] Waiting up to 120s for link up on ['Port_1', 'Port_2']
+2026-11-06 23:09:14 [ixnetwork_restpy.connection tid:36116] [INFO] Starting all protocols
+2026-11-06 23:09:42 [ixnetwork_restpy.connection tid:36116] [INFO] Starting traffic
+2026-11-06 23:09:53 [ixnetwork_restpy.connection tid:36116] [INFO] Traffic state: stoppedWaitingForStats
+2026-11-06 23:10:03 [ixnetwork_restpy.connection tid:36116] [INFO] Saved "Traffic Item Statistics" -> C:\Automation\automation_training\Start_101\results\lesson03_traffic_items.csv
+2026-11-06 23:10:03 [ixnetwork_restpy.connection tid:36116] [INFO] Saved "Flow Statistics" -> C:\Automation\automation_training\Start_101\results\lesson03_flows.csv
+2026-11-06 23:10:03 [ixnetwork_restpy.connection tid:36116] [INFO] Windows API server: releasing ports (the GUI session cannot be deleted)

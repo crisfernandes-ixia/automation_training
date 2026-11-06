@@ -1,0 +1,20 @@
+> python 01_create_and_delete_session.py
+
+2026-11-06 23:05:28 [ixnetwork_restpy.connection tid:43156] [INFO] using python version 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]
+2026-11-06 23:05:28 [ixnetwork_restpy.connection tid:43156] [INFO] using ixnetwork-restpy version 1.7.0
+2026-11-06 23:05:28 [ixnetwork_restpy.connection tid:43156] [WARNING] Verification of certificates is disabled
+2026-11-06 23:05:28 [ixnetwork_restpy.connection tid:43156] [INFO] Determining the platform and rest_port using the localhost address...
+2026-11-06 23:05:32 [ixnetwork_restpy.connection tid:43156] [WARNING] Unable to connect to http://localhost:443.
+2026-11-06 23:05:36 [ixnetwork_restpy.connection tid:43156] [WARNING] Unable to connect to https://localhost:443.
+2026-11-06 23:05:36 [ixnetwork_restpy.connection tid:43156] [WARNING] Unable to connect to http://localhost:11009.
+2026-11-06 23:05:36 [ixnetwork_restpy.connection tid:43156] [INFO] Connection established to `https://localhost:11009 on windows`
+2026-11-06 23:05:36 [ixnetwork_restpy.connection tid:43156] [WARNING] Setting the session name is not supported on the windows platform
+2026-11-06 23:05:36 [ixnetwork_restpy.connection tid:43156] [INFO] Using IxNetwork api server version 26.0.2620.9
+2026-11-06 23:05:36 [ixnetwork_restpy.connection tid:43156] [INFO] User info IxNetwork/1H85180DSV/crernand
+API server platform : windows
+Session id          : 1
+IxNetwork build     : 26.0.2620.9
+Virtual ports       : 0
+Topologies          : 0
+Traffic items       : 0
+2026-11-06 23:05:38 [ixnetwork_restpy.connection tid:43156] [INFO] Hello from Start_101 lesson 1

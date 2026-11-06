@@ -1,0 +1,3 @@
+Port,Sessions Up,Sessions Down,Sessions Not Started,Sessions Total,Protected Packet Tx,Encrypted Packet Tx,Valid Packet Rx,Bad Packet Rx,Bad Tag/ICV Discarded,Out of Window Discarded,Unknown SCI Discarded,Unused SA Discarded,Invalid ICV Discarded,Unknown SCI Rx,Unused SA Rx,Invalid ICV Rx,Tx Bytes Protected,Tx Bytes Encrypted,Rx Bytes Validated,Rx Bytes Decrypted,Non-MACsec Packet Rx
+Port_1,1,0,0,1,0,32,0,0,0,0,0,0,0,0,0,0,0,2112,0,0,0
+Port_2,1,0,0,1,0,32,0,0,0,0,0,0,0,0,0,0,0,2112,0,0,0

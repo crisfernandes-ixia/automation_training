@@ -1,0 +1,2 @@
+Traffic Item,Tx Frames,Rx Frames,Frames Delta,Loss %,Tx Frame Rate,Rx Frame Rate,Tx L1 Rate (bps),Rx L1 Rate (bps),Rx Bytes,Tx Rate (Bps),Rx Rate (Bps),Tx Rate (bps),Rx Rate (bps),Tx Rate (Kbps),Rx Rate (Kbps),Tx Rate (Mbps),Rx Rate (Mbps),Store-Forward Avg Latency (ns),Store-Forward Min Latency (ns),Store-Forward Max Latency (ns),First TimeStamp,Last TimeStamp
+IPv4_P1_to_P2,200000,200000,0,0.000,0.000,0.000,0.000,0.000,102400000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0,0,0,00:00:01.834,00:00:01.919

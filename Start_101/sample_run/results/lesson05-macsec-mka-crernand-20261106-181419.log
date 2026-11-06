@@ -1,0 +1,30 @@
+2026-11-06 23:14:19 [ixnetwork_restpy.connection tid:32152] [INFO] using python version 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]
+2026-11-06 23:14:19 [ixnetwork_restpy.connection tid:32152] [INFO] using ixnetwork-restpy version 1.7.0
+2026-11-06 23:14:19 [ixnetwork_restpy.connection tid:32152] [WARNING] Verification of certificates is disabled
+2026-11-06 23:14:19 [ixnetwork_restpy.connection tid:32152] [INFO] Determining the platform and rest_port using the localhost address...
+2026-11-06 23:14:23 [ixnetwork_restpy.connection tid:32152] [WARNING] Unable to connect to http://localhost:443.
+2026-11-06 23:14:27 [ixnetwork_restpy.connection tid:32152] [WARNING] Unable to connect to https://localhost:443.
+2026-11-06 23:14:27 [ixnetwork_restpy.connection tid:32152] [WARNING] Unable to connect to http://localhost:11009.
+2026-11-06 23:14:27 [ixnetwork_restpy.connection tid:32152] [INFO] Connection established to `https://localhost:11009 on windows`
+2026-11-06 23:14:27 [ixnetwork_restpy.connection tid:32152] [WARNING] Setting the session name is not supported on the windows platform
+2026-11-06 23:14:27 [ixnetwork_restpy.connection tid:32152] [INFO] Using IxNetwork api server version 26.0.2620.9
+2026-11-06 23:14:27 [ixnetwork_restpy.connection tid:32152] [INFO] User info IxNetwork/1H85180DSV/crernand
+2026-11-06 23:14:28 [ixnetwork_restpy.connection tid:32152] [INFO] Connected: platform=windows session id=1 name=<none>
+2026-11-06 23:14:29 [ixnetwork_restpy.connection tid:32152] [INFO] Connecting ports [(2, 13), (2, 14)] on chassis 10.80.81.2
+2026-11-06 23:14:29 [ixnetwork_restpy.connection tid:32152] [INFO] Adding test port hosts [10.80.81.2]...
+2026-11-06 23:14:35 [ixnetwork_restpy.connection tid:32152] [INFO] PortMapAssistant._add_hosts duration: 5.79692530632019secs
+2026-11-06 23:14:35 [ixnetwork_restpy.connection tid:32152] [INFO] Connecting virtual ports to test ports using location
+2026-11-06 23:14:55 [ixnetwork_restpy.connection tid:32152] [INFO] PortMapAssistant._connect_ports duration: 20.07269549369812secs
+2026-11-06 23:14:55 [ixnetwork_restpy.connection tid:32152] [WARNING] Bypassing link state check
+2026-11-06 23:14:59 [ixnetwork_restpy.connection tid:32152] [INFO] Port_1: L1 NovusTenGigLan set to media=fiber speed=speed10g
+2026-11-06 23:15:03 [ixnetwork_restpy.connection tid:32152] [INFO] Port_2: L1 NovusTenGigLan set to media=fiber speed=speed10g
+2026-11-06 23:15:03 [ixnetwork_restpy.connection tid:32152] [INFO] Waiting up to 120s for link up on ['Port_1', 'Port_2']
+2026-11-06 23:15:12 [ixnetwork_restpy.connection tid:32152] [INFO] Starting all protocols
+2026-11-06 23:16:09 [ixnetwork_restpy.connection tid:32152] [WARNING] Skipping view "MKA Drill Down": After 30 seconds the MKA Drill Down view has no data available.
+2026-11-06 23:16:09 [ixnetwork_restpy.connection tid:32152] [INFO] Saved "MKA Per Port" -> C:\Automation\automation_training\Start_101\results\lesson05_MKA_Per_Port.csv
+2026-11-06 23:16:24 [ixnetwork_restpy.connection tid:32152] [INFO] Starting traffic
+2026-11-06 23:16:45 [ixnetwork_restpy.connection tid:32152] [INFO] Saved "Traffic Item Statistics" -> C:\Automation\automation_training\Start_101\results\lesson05_traffic_items.csv
+2026-11-06 23:17:15 [ixnetwork_restpy.connection tid:32152] [WARNING] Skipping view "MACsec Global Port Statistics": After 30 seconds the MACsec Global Port Statistics view has no data available.
+2026-11-06 23:17:45 [ixnetwork_restpy.connection tid:32152] [WARNING] Skipping view "Static MACsec Drill Down": After 30 seconds the Static MACsec Drill Down view has no data available.
+2026-11-06 23:17:45 [ixnetwork_restpy.connection tid:32152] [INFO] Saved "Static MACsec Per Port" -> C:\Automation\automation_training\Start_101\results\lesson05_Static_MACsec_Per_Port.csv
+2026-11-06 23:17:45 [ixnetwork_restpy.connection tid:32152] [INFO] Windows API server: releasing ports (the GUI session cannot be deleted)

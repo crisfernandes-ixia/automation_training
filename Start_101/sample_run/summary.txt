@@ -1,0 +1,9 @@
+Start_101 sample run - 2026-11-06 18:20
+
+Lesson                           Exit     Result                         Duration
+01_create_and_delete_session     0        -                              10s
+02_load_saved_config             0        PASS                           161s
+03_build_l2l3_from_scratch       0        PASS                           118s
+04_macsec_static_sak             0        64B=PASS, 512B=PASS, 1500B=PASS 241s
+05_macsec_mka                    0        PASS                           221s
+06_capture_save_and_report       0        PASS                           164s
