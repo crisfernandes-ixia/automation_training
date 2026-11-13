@@ -1,10 +1,10 @@
-2026-11-13 13:32:15,077 Full REST transcript: C:\Automation\automation_training\Start_101_LowLevel\results\lowlevel101-lesson05-macsec-mka-crernand-20261113-133215_rest.log
+﻿2026-11-13 13:32:15,077 Full REST transcript: C:\Automation\automation_training\Start_101_LowLevel\results\lowlevel101-lesson05-macsec-mka-crernand-20261113-133215_rest.log
 2026-11-13 13:32:19,163 no API server at https://localhost:443/api/v1/auth/session
 2026-11-13 13:32:23,202 no API server at http://localhost:443/api/v1/auth/session
 2026-11-13 13:32:23,240 API server found at https://localhost:11009 (Server: Kestrel -> platform windows)
-2026-11-13 13:32:23,243 POST   /api/v1/auth/session {"username": "admin", "password": "admin", "ignorePolicy": true} -> 200 (0.00s)
-2026-11-13 13:32:23,243     request : {"username": "admin", "password": "admin", "ignorePolicy": true}
-2026-11-13 13:32:23,243     response: {"apiKey":"00000000000000000000000000000000","sessionName":"ixnetwork","sessionId":"00000000-0000-0000-0000-000000000000","username":"admin","userAccountUrl":""}
+2026-11-13 13:32:23,243 POST   /api/v1/auth/session {"username": "admin", "password": "***", "ignorePolicy": true} -> 200 (0.00s)
+2026-11-13 13:32:23,243     request : {"username": "admin", "password": "***", "ignorePolicy": true}
+2026-11-13 13:32:23,243     response: {"apiKey":"***","sessionName":"ixnetwork","sessionId":"00000000-0000-0000-0000-000000000000","username":"admin","userAccountUrl":""}
 2026-11-13 13:32:23,246 GET    /api/v1/sessions  -> 200 (0.00s)
 2026-11-13 13:32:23,246     request : -
 2026-11-13 13:32:23,246     response: [{"id":1,"applicationType":"ixnetwork","backendType":"ixnetwork","userId":"00000000-0000-0000-0000-000000000000","userName":"","state":"ACTIVE","subState":null,"createdOn":"11/13/2026 17:06:55","startedOn":"11/13/2026 17:06:55","stoppedOn":null,"testInfo":null,"mwSdmPath":null,"mwSdmProcessId":20696,"mwSdmIpAddress":"127.0.0.1","mwSdmPort":64768,"loadConfig":null,"debugTrace":true}]
