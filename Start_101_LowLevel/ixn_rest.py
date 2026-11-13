@@ -29,6 +29,7 @@ response bodies in results/<lesson>_rest.log - a ready-made spec for porting to 
 """
 import json
 import logging
+import re
 import time
 
 import requests
@@ -270,17 +271,27 @@ class IxnRest(object):
         if data is not None:
             req_body = '<{} bytes file content>'.format(len(data))
         elif payload is not None:
-            req_body = json.dumps(payload)
+            req_body = redact(json.dumps(payload))
         else:
             req_body = ''
         level = logging.DEBUG if quiet else logging.INFO
         LOG.log(level, '%-6s %s %s -> %s (%.2fs)', method, path, _short(req_body), r.status_code, seconds)
         if 'json' in r.headers.get('Content-Type', ''):
-            resp_body = r.text
+            resp_body = redact(r.text)
         else:
             resp_body = '<{} bytes {}>'.format(len(r.content), r.headers.get('Content-Type', ''))
         LOG.debug('    request : %s', req_body or '-')
         LOG.debug('    response: %s', resp_body[:4000] + (' ...' if len(resp_body) > 4000 else ''))
+
+
+SECRET_KEYS = ('password', 'apiKey')
+
+
+def redact(text):
+    """Hide passwords and API keys so transcripts can be shared safely."""
+    for key in SECRET_KEYS:
+        text = re.sub(r'("{}"\s*:\s*)"[^"]*"'.format(key), r'\1"***"', text)
+    return text
 
 
 def _short(text, limit=110):

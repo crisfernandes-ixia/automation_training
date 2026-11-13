@@ -20,6 +20,7 @@ Run
 import datetime
 import getpass
 import json
+import re
 import time
 
 import requests
@@ -36,12 +37,18 @@ http.verify = False                                   # self-signed certificate 
 http.headers['Content-Type'] = 'application/json'
 
 
+def redact(text):
+    """Hide the password and the API key in what we print."""
+    return re.sub(r'("(?:password|apiKey)"\s*:\s*)"[^"]*"', r'\1"***"', text)
+
+
 def show(method, url, body, response):
     """Print one HTTP exchange the way you would see it in Postman."""
     print('\n>>> {} {}'.format(method, url))
     if body is not None:
-        print('    body: {}'.format(json.dumps(body)))
-    text = response.text if len(response.text) < 600 else response.text[:600] + ' ...'
+        print('    body: {}'.format(redact(json.dumps(body))))
+    text = redact(response.text)
+    text = text if len(text) < 600 else text[:600] + ' ...'
     print('<<< {} {}'.format(response.status_code, text))
 
 
