@@ -11,6 +11,8 @@ import csv
 import datetime
 import getpass
 import os
+import re
+import struct
 import time
 
 import lab_config as cfg
@@ -239,8 +241,9 @@ def apply_traffic(lab):
         raise
 
 
-def run_traffic(lab, timeout=60):
+def run_traffic(lab, timeout=60, apply=True):
     """Apply, start, wait until traffic stops by itself (fixed frame count / duration).
+    Pass apply=False if apply_traffic() was already called (lesson 06).
 
     REST calls:
       POST <ixn>/traffic/operations/startstatelesstrafficblocking {"arg1": ["<ixn>/traffic"]}
@@ -248,7 +251,8 @@ def run_traffic(lab, timeout=60):
       POST <ixn>/traffic/operations/stopstatelesstrafficblocking {"arg1": ["<ixn>/traffic"]}
     """
     rest, traffic = lab.rest, lab.ixn + '/traffic'
-    apply_traffic(lab)
+    if apply:
+        apply_traffic(lab)
     LOG.info('Starting traffic')
     rest.operation(traffic, 'startStatelessTrafficBlocking', [traffic])
     start = time.time()
@@ -280,6 +284,24 @@ def view_to_csv(lab, caption, filename):
     return cols, rows
 
 
+def export_views(lab, contains, prefix, timeout=30):
+    """Save every view whose caption contains <contains> (case-insensitive) to CSV.
+    Drill-down views only fill in when opened in the GUI: they time out and are skipped."""
+    for caption in lab.rest.view_captions(lab.ixn):
+        if caption and contains.lower() in caption.lower():
+            try:
+                cols, rows = lab.rest.read_view(lab.ixn, caption, timeout=timeout)
+            except IxnRestError as err:
+                LOG.warning('Skipping view "%s": %s', caption, err)
+                continue
+            path = os.path.join(RESULTS_DIR, '{}_{}.csv'.format(prefix, re.sub(r'\W+', '_', caption)))
+            with open(path, 'w', newline='') as fh:
+                writer = csv.writer(fh)
+                writer.writerow(cols)
+                writer.writerows(rows)
+            LOG.info('Saved "%s" -> %s', caption, path)
+
+
 def check_traffic_loss(lab):
     """PASS when every traffic item has Tx > 0 and Tx == Rx."""
     cols, rows = lab.rest.read_view(lab.ixn, 'Traffic Item Statistics')
@@ -291,6 +313,44 @@ def check_traffic_loss(lab):
         print('{:<40} Tx={:<12} Rx={:<12} Loss%={:<8} {}'.format(
             row['Traffic Item'], tx, rx, row['Loss %'], 'PASS' if ok else 'FAIL'))
     return passed
+
+
+# ---------------------------------------------------------------------------
+# Objects
+# ---------------------------------------------------------------------------
+def get_child(lab, parent, name):
+    """Read a child that exists exactly once, e.g. <staticMacsec>/txSakPool, <mka>/cakCache,
+    <vport>/capture. Returns (attributes, href).
+    GET <parent>/<name> answers with ONE object on some builds and a one-item list on
+    others: accept both. A single object lives at <parent>/<name> itself (like
+    <configElement>/frameSize); a list item carries its own href in links[0].href."""
+    url = '{}/{}'.format(parent, name)
+    obj = lab.rest.get(url)
+    if isinstance(obj, list):
+        obj = obj[0]
+        href = obj.get('href') or (obj['links'][0]['href'] if obj.get('links')
+                                   else '{}/{}'.format(url, obj['id']))
+    else:
+        href = obj.get('href') or url
+    return obj, href
+
+
+def count_capture_packets(path):
+    """Count the packets in a downloaded .cap (pcapng) file - pure Python, no Wireshark.
+    More reliable than <vport>/capture dataPacketCounter, which can stay 0 via the API."""
+    count = 0
+    with open(path, 'rb') as fh:
+        data = fh.read()
+    endian = '<' if data[8:12] == b'\x4d\x3c\x2b\x1a' else '>'    # byte-order magic
+    offset = 0
+    while offset + 8 <= len(data):
+        block_type, block_len = struct.unpack(endian + 'II', data[offset:offset + 8])
+        if block_type in (2, 3, 6):          # (obsolete / simple / enhanced) packet blocks
+            count += 1
+        if block_len < 12:
+            break                            # corrupt file: stop instead of looping
+        offset += block_len
+    return count
 
 
 # ---------------------------------------------------------------------------

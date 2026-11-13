@@ -1,6 +1,6 @@
 # Start_101_LowLevel: IxNetwork automation with raw REST calls
 
-Lessons 01–03 of [Start_101](../Start_101), rewritten with **no IxNetwork library**:
+The six lessons of [Start_101](../Start_101), rewritten with **no IxNetwork library**:
 every step is a plain HTTP `GET` / `POST` / `PATCH` / `DELETE`. It is written for
 teams that drive IxNetwork from their own code, such as **C# `HttpClient`**, Java or
 Go. The Python here is only a readable way to show the HTTP calls, so port the calls,
@@ -11,6 +11,9 @@ not the Python.
 | `01_session_rest.py` | Find the API server, log in, get a session, read the config, clean up. Uses only the `requests` package, no helpers. |
 | `02_load_saved_config_rest.py` | Upload and load an `.ixncfg`, re-map ports, start protocols, run traffic, check loss, export CSV |
 | `03_build_l2l3_rest.py` | Build Topology → DeviceGroup → Ethernet → IPv4 with multivalues, plus a traffic item, from an empty config |
+| `04_macsec_static_sak_rest.py` | MACsec with static SAKs: `staticMacsec` and its Tx/Rx SAK pools, encrypted traffic, a frame-size sweep, MACsec stats |
+| `05_macsec_mka_rest.py` | MACsec with MKA: `mka` and `cakCache` (CAK/CKN, key server priority), verifying MKA, encrypted traffic |
+| `06_capture_save_and_report_rest.py` | eBGP with advertised routes, data and control-plane capture, downloading the `.cap` files, saving and downloading the config, CSV reports |
 | `ixn_rest.py` | The whole REST "library": about 150 lines covering transport, async operations, multivalues, files and statistics |
 | `common_rest.py` | Session, port, protocol, traffic and statistics steps. Each function lists the exact HTTP calls it makes. |
 | `lab_config.py` | API server, chassis, ports (2/13 and 2/14, 10G fiber), credentials |
@@ -32,6 +35,18 @@ python 02_load_saved_config_rest.py configs/my_test.ixncfg
 
 ```bash
 python 03_build_l2l3_rest.py
+```
+
+```bash
+python 04_macsec_static_sak_rest.py
+```
+
+```bash
+python 05_macsec_mka_rest.py
+```
+
+```bash
+python 06_capture_save_and_report_rest.py
 ```
 
 The console shows one line per HTTP call. Every lesson also writes a **complete REST
@@ -82,8 +97,30 @@ Everything in the lessons is one of these. There is nothing else.
 | Start / stop traffic | `POST <ixn>/traffic/operations/startstatelesstrafficblocking {"arg1":["<ixn>/traffic"]}`. Here `arg1` is a **list**. |
 | Traffic state | `GET <ixn>/traffic` returns `"state"`: `started`, `stoppedWaitingForStats` or `stopped` |
 | Statistics | `GET <ixn>/statistics/view` and find the item whose `caption` matches, e.g. `Traffic Item Statistics`. Then `GET <view>/data` returns `isReady`, `totalPages`, `columnCaptions` and `pageValues`. Use `PATCH <view>/data {"currentPage":2}` for more pages. |
+| Clear statistics | `POST <ixn>/operations/clearstats` (no body) |
 | Release ports (Windows) | `POST <ixn>/vport/operations/releaseport {"arg1":[<vports>]}` |
 | Delete a session (Linux) | `POST /api/v1/sessions/<id>/operations/stop?deleteAfterStop=true` |
+
+## Cheat sheet: the extra calls in lessons 04–06
+
+| Task | Call |
+|---|---|
+| Static MACsec endpoint | `POST <ethernet>/staticMacsec {"name"}`, then `PATCH <staticMacsec> {"encryptedTrafficType":"statelessL23"}` |
+| MACsec per-device fields | `GET <staticMacsec>` returns multivalue hrefs for `dutMac`, `sourceIp` and `endStation`. Set each with `/singleValue {"value"}`. |
+| SAK keys | `PATCH <staticMacsec> {"txSakPoolSize":1,"rxSakPoolSize":1}`. Then `GET <staticMacsec>/txSakPool` returns `txSak128` / `txSak256`, which are multivalues. `rxSakPool` works the same way. |
+| MKA | `POST <ethernet>/mka {"name"}`, then `PATCH <mka> {"cakCount":1}`. `GET <mka>` returns the `keyServerPriority` and `keyDerivationFunction` multivalues (`aescmac128` / `aescmac256`). |
+| CAK / CKN | `GET <mka>/cakCache` returns the `cakValue128` / `cakValue256` and `cakName` multivalues |
+| MKA rekey (optional) | `PATCH <mka> {"rekeyMode":"timerBased","rekeyBehaviour":"rekeyContinuous","periodicRekeyInterval":30}` |
+| Encrypted traffic | `trafficType: "ethernetVlan"`. The endpoints are the **staticMacsec** hrefs. Do **not** set `trackBy`: MACsec rejects it at apply. |
+| Custom payload | `PATCH <configElement>/framePayload {"type":"custom","customPattern":"CAFEC0FFEE","customRepeat":true}` |
+| BGP peer | `POST <ipv4>/bgpIpv4Peer {"name"}`. Its `type`, `localAs2Bytes`, `dutIp`, `keepaliveTimer` and `holdTimer` are multivalues. |
+| Advertised routes | `POST <deviceGroup>/networkGroup {"name","multiplier":10}`, then `POST <networkGroup>/ipv4PrefixPools {"numberOfAddresses":1}`. `networkAddress` and `prefixLength` are multivalues. |
+| Enable capture | `PATCH <vport> {"rxMode":"captureAndMeasure"}`, then `PATCH <vport>/capture {"hardwareEnabled":true,"softwareEnabled":true}` |
+| Capture window | `POST <ixn>/operations/startcapture`, then `stopcapture`. Apply traffic **before** you start the capture. |
+| Send ARP | `POST <ipv4>/operations/sendarp {"arg1":[<ipv4>]}`. This posts to the object itself, not to the collection. |
+| Save captures | `GET <ixn>/globals` returns `persistencePath`. Then `POST <ixn>/operations/savecapturefiles {"arg1":"<persistencePath>\\start101_captures"}` returns a list of the files saved. |
+| Save the config | `POST <ixn>/operations/saveconfig {"arg1":"lesson06_saved.ixncfg"}` |
+| Download a file | `GET <ixn>/files?filename=<name or full server path>` returns the raw bytes |
 
 ## Pitfalls (each one is handled in the code)
 
@@ -109,8 +146,16 @@ Everything in the lessons is one of these. There is nothing else.
    copper settings.
 9. **Collection items** carry their own href in `links[0].href`. If `href` is missing,
    build it as `<collection>/<id>`.
+   **Single children** (`tracking`, `txSakPool`, `cakCache`, `capture`) answer with **one
+   object** on 26.0, not a list. That object lives at `<parent>/<child>` itself. The
+   `list()` and `get_child()` helpers accept both shapes.
 10. **Errors.** A 4xx response has `{"errors":[{"detail":…}]}`. The server's own
     explanation is at `GET <ixn>/globals/appErrors/error`. `ixn_rest` prints both.
+11. **Drill-down views** (`... Drill Down`) only fill in when opened in the GUI. Through
+    the API they stay `isReady: false`, so `export_views()` skips them after 30 seconds.
+12. **Captures:** count packets from the downloaded `.cap` file
+    (`count_capture_packets()`). `<vport>/capture` `dataPacketCounter` can stay 0
+    through the API.
 
 ## The same thing in C#
 
@@ -177,9 +222,12 @@ Copy those from `ixn_rest.py` once the basic calls work.
 
 ## Status
 
-* **Verified offline.** Lessons 01–03 were run end to end against a strict mock of the
+* **Lessons 01–03: verified on the lab** (IxNetwork 26.0.2620.9, Windows GUI). Note:
+  the 26.6.2681.9 Windows GUI returned an empty HTTP 500 on every REST request, so use
+  26.0 until that is fixed.
+* **Lessons 04–06: verified offline only.** They were run end to end against a strict mock of the
   IxNetwork REST API, in both Windows-GUI and Linux-API-server modes. The mock checks
   URLs, payload shapes, `arg1` types, multivalue patterns, the async-operation protocol,
   statistics paging, session cleanup and `X-Api-Key`.
-* **Not yet run on a real server.** The calls mirror what RestPy sends to the IxNetwork
-  26.0 server the Start_101 lessons passed on. Run them on the lab before sharing.
+  The calls mirror what RestPy sends to the 26.0 server that the Start_101 lessons
+  04–06 passed on. Run them on the lab before you share them.
