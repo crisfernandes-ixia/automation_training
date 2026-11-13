@@ -1,0 +1,3 @@
+Port,Sessions Up,Sessions Down,Sessions Not Started,Sessions Total,Sessions Configured,Sessions Established,Session Flap Count,Idle State Count,Connect State Count,Active State Count,OpenSent State Count,OpenConfirm State Count,Established State Count,Routes Advertised,Routes Withdrawn,Messages Tx,Messages Rx,Updates Tx,Updates Rx,Routes Rx,Route Withdraws Rx,Opens Tx,Opens Rx,KeepAlives Tx,KeepAlives Rx,Notifications Tx,Notifications Rx,Hold Timer Expireds Tx,Hold Timer Expireds Rx,Graceful Restarts Attempted,Graceful Restarts Failed,Routes Rx Graceful Restart,End of RIB Rx
+Port_1,1,0,0,1,1,1,0,0,0,0,0,0,1,10,0,27,27,10,10,10,0,1,1,16,16,0,0,0,0,0,0,0,0
+Port_2,1,0,0,1,1,1,0,0,0,0,0,0,1,10,0,28,27,10,10,10,0,2,1,16,16,0,0,0,0,0,0,0,0

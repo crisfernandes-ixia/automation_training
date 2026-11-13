@@ -1,0 +1,35 @@
+﻿
+... nothing at https://localhost:443/api/v1/auth/session (ConnectionError)
+
+>>> POST https://localhost:11009/api/v1/auth/session
+    body: {"username": "", "password": "***"}
+<<< 200 {"apiKey":"***","sessionName":"ixnetwork","sessionId":"00000000-0000-0000-0000-000000000000","username":"","userAccountUrl":""}
+    -> API server found: https://localhost:11009  (Server header "Kestrel" = windows)
+
+>>> POST https://localhost:11009/api/v1/auth/session
+    body: {"username": "admin", "password": "***", "ignorePolicy": true}
+<<< 200 {"apiKey":"***","sessionName":"ixnetwork","sessionId":"00000000-0000-0000-0000-000000000000","username":"admin","userAccountUrl":""}
+
+>>> GET https://localhost:11009/api/v1/sessions
+<<< 200 [{"id":1,"applicationType":"ixnetwork","backendType":"ixnetwork","userId":"00000000-0000-0000-0000-000000000000","userName":"","state":"ACTIVE","subState":null,"createdOn":"11/13/2026 17:06:55","startedOn":"11/13/2026 17:06:55","stoppedOn":null,"testInfo":null,"mwSdmPath":null,"mwSdmProcessId":20696,"mwSdmIpAddress":"127.0.0.1","mwSdmPort":64768,"loadConfig":null,"debugTrace":true}]
+
+>>> GET https://localhost:11009/api/v1/sessions/1/ixnetwork/globals
+<<< 200 {"buildNumber":"26.0.2620.9","username":"IxNetwork/1H85180DSV/crernand","links":[{"rel":"self","method":"GET","href":"/api/v1/sessions/1/ixnetwork/globals"},{"rel":"meta","method":"OPTIONS","href":"/api/v1/sessions/1/ixnetwork/globals"}]}
+
+>>> GET https://localhost:11009/api/v1/sessions/1/ixnetwork/vport
+<<< 200 []
+
+>>> GET https://localhost:11009/api/v1/sessions/1/ixnetwork/topology
+<<< 200 []
+
+>>> GET https://localhost:11009/api/v1/sessions/1/ixnetwork/traffic/trafficItem
+<<< 200 []
+
+================ summary ================
+API server      : https://localhost:11009 (windows)
+Session id      : 1
+IxNetwork build : 26.0.2620.9
+User            : IxNetwork/1H85180DSV/crernand
+Virtual ports   : 0
+Topologies      : 0
+Traffic items   : 0
