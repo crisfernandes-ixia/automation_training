@@ -222,12 +222,13 @@ Copy those from `ixn_rest.py` once the basic calls work.
 
 ## Status
 
-* **Lessons 01–03: verified on the lab** (IxNetwork 26.0.2620.9, Windows GUI). Note:
-  the 26.6.2681.9 Windows GUI returned an empty HTTP 500 on every REST request, so use
-  26.0 until that is fixed.
-* **Lessons 04–06: verified offline only.** They were run end to end against a strict mock of the
-  IxNetwork REST API, in both Windows-GUI and Linux-API-server modes. The mock checks
-  URLs, payload shapes, `arg1` types, multivalue patterns, the async-operation protocol,
-  statistics paging, session cleanup and `X-Api-Key`.
-  The calls mirror what RestPy sends to the 26.0 server that the Start_101 lessons
-  04–06 passed on. Run them on the lab before you share them.
+All six lessons passed on the lab on 2026-11-13: IxNetwork 26.0.2620.9 (Windows GUI API
+server), chassis 10.80.81.2, ports 2/13 and 2/14 at 10G fiber, back to back. Every
+traffic run had zero frame loss. The complete REST transcripts, statistics, captures
+and the saved config are in [`sample_run/`](sample_run). The IxNetwork 26.6.2681.9
+Windows GUI answered every REST request with an empty HTTP 500, so use 26.0 until
+that is fixed.
+
+The lessons were also run against a strict mock of the IxNetwork REST API, in both
+Windows-GUI and Linux-API-server modes. On the lab, only the Windows GUI path was
+tested.
