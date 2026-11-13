@@ -1,0 +1,3 @@
+Tx Port,Rx Port,Traffic Item,Source/Dest Endpoint Pair,Tx Frames,Rx Frames,Frames Delta,Loss %,Tx Frame Rate,Rx Frame Rate,Tx L1 Rate (bps),Rx L1 Rate (bps),Rx Bytes,Tx Rate (Bps),Rx Rate (Bps),Tx Rate (bps),Rx Rate (bps),Tx Rate (Kbps),Rx Rate (Kbps),Tx Rate (Mbps),Rx Rate (Mbps),Store-Forward Avg Latency (ns),Store-Forward Min Latency (ns),Store-Forward Max Latency (ns),First TimeStamp,Last TimeStamp
+Port_1,Port_2,IPv4_P1_to_P2,10.1.0.1-10.1.0.101,100000,100000,0,0,0,0,0,0,51200000,0,0,0,0,0,0,0,0,0,0,0,00:00:01.226,00:00:01.312
+Port_2,Port_1,IPv4_P1_to_P2,10.1.0.101-10.1.0.1,100000,100000,0,0,0,0,0,0,51200000,0,0,0,0,0,0,0,0,0,0,0,00:00:01.226,00:00:01.312
