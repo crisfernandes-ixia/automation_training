@@ -125,12 +125,20 @@ class IxnRest(object):
 
     def list(self, collection):
         """GET a collection (e.g. <ixn>/vport) and make sure every item has an 'href'.
-        Items carry their href in 'href' or in links[0].href; else it is <collection>/<id>."""
+        Items carry their href in 'href' or in links[0].href; else it is <collection>/<id>.
+        Some single-instance children (e.g. trafficItem/<n>/tracking on some builds) answer
+        with ONE object instead of a list: wrap it so callers always get a list."""
         items = self.get(collection) or []
+        if isinstance(items, dict):
+            items = [items]
         for item in items:
             if 'href' not in item:
-                item['href'] = (item['links'][0]['href'] if item.get('links')
-                                else '{}/{}'.format(collection, item['id']))
+                if item.get('links'):
+                    item['href'] = item['links'][0]['href']
+                elif 'id' in item:
+                    item['href'] = '{}/{}'.format(collection, item['id'])
+                else:
+                    item['href'] = collection
         return items
 
     def post(self, path, payload=None, **params):
